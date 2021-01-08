@@ -28,7 +28,7 @@ See [NEWS](https://gitlab.xfce.org/panel-plugins/xfce4-notes-plugin/-/blob/maste
 
 ### Installation
 
-From source code repository: 
+From source code repository:
 
     % cd xfce4-notes-plugin
     % ./autogen.sh
@@ -47,3 +47,44 @@ From release tarball:
 
 Visit the [reporting bugs](https://docs.xfce.org/panel-plugins/xfce4-notes-plugin/bugs) page to view currently open bug reports and instructions on reporting new bugs or submitting bugfixes.
 
+### Docker development container
+
+Now this project support using vscode to develop the application within a docker container.
+
+If you would like to use docker image to develop, please check the following site.
+
+- [Resolve Xauthority in a container](https://stackoverflow.com/a/25280523)
+- [VSCode devcontainer.json reference](https://code.visualstudio.com/docs/remote/devcontainerjson-reference)
+
+#### Sharing Git credentials with your container
+
+Check the following page to see how to use ssh-keys within the container.  
+[Sharing Git credentials with your container - Using SSH key](https://code.visualstudio.com/docs/remote/containers#_using-ssh-keys)
+
+1. Add the ssh key to your agent
+
+    ```bash
+    ssh-add <your-ssh-key-to-git-repo>
+    ```
+
+2. If your host OS is `Ubuntu`, add the following code in ~/.profile
+
+    ```bash
+    if [ -z "$SSH_AUTH_SOCK" ]; then
+    # Check for a currently running instance of the agent
+    RUNNING_AGENT="`ps -ax | grep 'ssh-agent -s' | grep -v grep | wc -l | tr -d '[:space:]'`"
+    if [ "$RUNNING_AGENT" = "0" ]; then
+        # Launch a new instance of the agent
+        ssh-agent -s &> .ssh/ssh-agent
+    fi
+    eval `cat .ssh/ssh-agent`
+    fi
+    ```
+
+    To activate the `ssh-agent`, you may need to reboot or re-login your system.
+
+3. Check if it works in the container by:
+
+    ```bash
+    ssh-add -L
+    ```

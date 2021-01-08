@@ -1,0 +1,17 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.154.2/containers/docker-existing-dockerfile
+{
+    "name": "xfce4-notes-plugin-dev-container",
+    "dockerFile": "../Dockerfile",
+
+    "settings": {
+      "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "initializeCommand": ["bash", "${localWorkspaceFolder}/.devcontainer/xauth.sh"],
+    "runArgs": [
+      "-e", "DISPLAY=${env:DISPLAY}",
+      "-e", "XAUTHORITY=/tmp/.docker.xauth",
+      "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
+      "-v", "/tmp/.docker.xauth:/tmp/.docker.xauth"
+    ]
+}
